@@ -47,15 +47,15 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="mt-16 mx-auto max-w-[1250px] flex items-end justify-between px-4">
-      <h2 v-if="popularMovie.length">Popular Movies</h2>
+    <div class="mt-16 mx-auto max-w-[1250px] flex justify-between items-center px-4">
+      <h2 v-if="popularMovie.length" class="text-2xl font-semibold">Popular Movies</h2>
       <RouterLink
         to="/morePopularMovie"
-        class="flex flex-row items-center"
+        class="flex flex-row items-center gap-1"
         v-if="popularMovie.length"
       >
         <span class="text-[#911b1b] font-medium">See more</span>
-        <img src="/next.png" class="w-6 h-6" />
+        <img src="/next.png" class="w-5 h-5" />
       </RouterLink>
     </div>
 

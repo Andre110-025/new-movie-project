@@ -46,11 +46,15 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="mt-16 mx-auto max-w-[1250px] flex items-end justify-between px-4">
-      <h2 v-if="comingSoon.length">Coming Soon</h2>
-      <RouterLink to="/moreComingSoon" class="flex flex-row items-center" v-if="comingSoon.length">
+    <div class="mt-16 mx-auto max-w-[1250px] flex justify-between items-center px-4">
+      <h2 v-if="comingSoon.length" class="text-2xl font-semibold">Coming Soon</h2>
+      <RouterLink
+        to="/moreComingSoon"
+        class="flex flex-row items-center gap-1"
+        v-if="comingSoon.length"
+      >
         <span class="text-[#911b1b] font-medium">See more</span>
-        <img src="/next.png" class="w-6 h-6" />
+        <img src="/next.png" class="w-5 h-5" />
       </RouterLink>
     </div>
 
