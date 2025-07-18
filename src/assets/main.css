@@ -1,0 +1,21 @@
+@import url('https://fonts.bunny.net/css?family=poppins:300,400,500,600,700,800,900');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply scroll-smooth;
+  }
+  h2 {
+    @apply text-4xl text-black font-semibold;
+  }
+  h5 {
+    @apply text-xl text-black font-semibold p-3 sm:px-3;
+  }
+
+  .mainColor {
+    @apply bg-[#911b1b];
+  }
+}
