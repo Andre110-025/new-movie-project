@@ -6,7 +6,7 @@ import { toast } from 'vue3-toastify'
 
 const loading = ref(false)
 const popularMovie = ref([])
-const popularScrollContainer = ref(null)
+// const popularScrollContainer = ref(null)
 
 // reusable scroll functions
 // const scrollRight = (imagerContainer) => {

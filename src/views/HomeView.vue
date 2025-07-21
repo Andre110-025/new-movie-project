@@ -46,7 +46,7 @@ const saveUserInfo = () => {
   userInfo.value.push(newUser)
   console.log(newUser)
 
-  toast.success(`Welcome ${firstName.value} - ${lastName.value} ✅`)
+  toast.success('Login Successful')
 
   setTimeout(() => {
     router.push('/movieHome')
