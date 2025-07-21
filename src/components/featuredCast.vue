@@ -72,18 +72,26 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="relative w-full max-w-[1250px] mx-auto mt-10 px-4">
+    <div class="relative w-full max-w-[1250px] mx-auto mt-6 px-4">
       <div
         v-if="featuredCast.length"
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-10"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4"
       >
-        <div v-for="(img, index) in featuredCast" :key="index" class="overflow-hidden">
+        <div
+          v-for="(img, index) in featuredCast"
+          :key="index"
+          class="bg-[#111] rounded-lg overflow-hidden shadow-md transition transform hover:scale-[1.02]"
+        >
           <img
-            :src="`https://image.tmdb.org/t/p/w780${img.profile_path}`"
-            class="w-full sm:w-full h-[400px] object-cover"
+            :src="`https://image.tmdb.org/t/p/w500${img.profile_path}`"
+            class="w-full h-[220px] sm:h-[300px] object-cover rounded-t-lg"
           />
-          <p class="w-[300px] text-gray-500 text-[15px] py-1 px-2 rounded">{{ img.name }}</p>
-          <p class="text-xl text-black font-semibold p-3">{{ img.character }}</p>
+          <div class="p-3">
+            <p class="text-white text-lg font-semibold truncate">
+              {{ img.name }}
+            </p>
+            <p class="text-gray-400 text-sm mt-1 truncate">🎭 {{ img.character }}</p>
+          </div>
         </div>
       </div>
     </div>

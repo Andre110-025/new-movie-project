@@ -72,35 +72,37 @@ onMounted(() => {
 
     <RouterLink
       to="/movieHome"
-      class="flex flex-row items-center gap-1 mt-16 mb-4 ml-10"
+      class="flex flex-row items-center gap-1 mt-10 ml-10"
       v-if="searchedMovie.length"
     >
       <img src="/next2.png" class="w-6 h-6" />
       <span class="text-[#911b1b] font-medium">Go back</span>
     </RouterLink>
 
-    <div v-if="searchedMovie.length" class="p-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div
-          v-for="(img, index) in searchedMovie"
-          :key="index"
-          class="bg-white rounded-xl shadow hover:shadow-lg transition-shadow duration-300"
-        >
-          <img
-            :src="`https://image.tmdb.org/t/p/w500${img.poster_path}`"
-            alt="Movie Poster"
-            class="w-full h-[400px] object-cover"
-          />
-
-          <div class="p-4">
-            <p class="text-gray-500 text-sm mb-2">🎬 {{ img.release_date }}</p>
-            <h5 class="text-lg text-black font-semibold mb-2">
-              {{ img.title }}
-            </h5>
-            <div class="flex items-center justify-between">
-              <img src="/imdb.png" class="w-11 h-5" alt="IMDb" />
-              <p class="text-gray-700 font-medium">🍅 {{ img.vote_average }} / 10</p>
-            </div>
+    <div
+      v-if="searchedMovie.length"
+      ref="searchScrollContainer"
+      class="w-full max-w-[1250px] mx-auto mt-10 px-4 flex overflow-x-auto gap-4 scroll-smooth animate-fadeUp"
+      style="scrollbar-width: none; -ms-overflow-style: none"
+    >
+      <div
+        v-for="(img, index) in searchedMovie"
+        :key="index"
+        class="min-w-[300px] bg-[#111] rounded-lg overflow-hidden shadow-md flex-shrink-0 transition transform hover:scale-[1.02]"
+      >
+        <img
+          :src="`https://image.tmdb.org/t/p/w500${img.poster_path}`"
+          alt="Movie Poster"
+          class="w-[300px] h-[400px] object-cover rounded-t-lg"
+        />
+        <div class="p-3">
+          <p class="text-gray-400 text-xs mb-1">🎬 {{ img.release_date }}</p>
+          <h5 class="text-white text-base font-semibold truncate">
+            {{ img.title }}
+          </h5>
+          <div class="flex flex-row items-center justify-between mt-2">
+            <img src="/imdb.png" class="w-10 h-4" />
+            <p class="text-gray-400 text-sm font-medium">🍅 {{ img.vote_average }} / 10</p>
           </div>
         </div>
       </div>

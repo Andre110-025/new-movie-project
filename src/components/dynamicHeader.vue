@@ -72,18 +72,19 @@ onBeforeUnmount(() => {
     <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
       <img
         src="/ChatGPT_Image_Jun_26__2025__04_28_44_PM-removebg-preview.png"
-        class="w-28 sm:w-32 h-auto"
+        class="w-28 sm:w-32 h-auto self-start -ml-4 -mt-4"
+        style="align-self: flex-start"
       />
 
-      <div class="relative w-full max-w-md">
+      <div class="relative w-full max-w-md -mt-[20px]">
         <IconSearch
           class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white pointer-events-none"
         />
         <input
           type="text"
           v-model="search"
-          placeholder="Click on the button to search"
-          class="w-full pl-12 pr-20 py-2 sm:py-3 rounded-lg text-sm text-white bg-transparent border-2 border-white border-opacity-70 placeholder-white placeholder-opacity-60 focus:ring-1 focus:ring-white focus:border-white outline-none transition"
+          placeholder="Search for movies..."
+          class="w-full pl-12 pr-20 py-3 sm:py-[10px] rounded-lg text-sm text-white bg-transparent border-2 border-white border-opacity-70 placeholder-white placeholder-opacity-60 focus:ring-1 focus:ring-white focus:border-white outline-none transition"
         />
         <RouterLink
           :to="{ path: '/ImageResult', query: { q: search } }"
@@ -95,7 +96,7 @@ onBeforeUnmount(() => {
 
       <RouterLink
         to="/homeView"
-        class="w-12 h-12 sm:w-15 sm:h-15 mainColor rounded-full flex items-center justify-center border-4 border-[#911b1b]"
+        class="w-12 h-12 sm:w-15 sm:h-15 mainColor rounded-full flex items-center justify-center border-4 border-[#911b1b] absolute top-[15px] right-[3px] sm:static"
       >
         <img
           src="/ChatGPT_Image_Jul_7__2025__12_00_58_PM-removebg-preview.png"
@@ -108,26 +109,28 @@ onBeforeUnmount(() => {
       class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 px-2 sm:px-4 mt-[50px]"
     >
       <div class="flex flex-col items-start max-w-full lg:max-w-[50%]">
-        <h3 class="text-3xl sm:text-5xl text-white font-semibold leading-tight">
+        <h3 class="text-4xl sm:text-5xl text-white font-semibold leading-tight">
           {{ dynamicScreen[currentSlide]?.original_title }}
         </h3>
 
         <div class="mt-3 flex flex-wrap items-center gap-4 text-white">
           <div class="flex items-center gap-2">
             <img src="/imdb.png" class="w-8 sm:w-11 h-auto" />
-            <span class="font-bold uppercase text-sm">
+            <span class="font-bold uppercase text-base sm:text-[inherit]">
               {{ dynamicScreen[currentSlide]?.popularity }}
             </span>
           </div>
           <div class="flex items-center gap-2">
             <img src="/ChatGPT Image Jun 30, 2025, 10_30_49 AM.png" class="w-8 sm:w-11" />
-            <span class="font-bold uppercase text-sm">
+            <span class="font-bold uppercase text-base sm:text-[inherit]">
               {{ dynamicScreen[currentSlide]?.vote_average }}/ 100
             </span>
           </div>
         </div>
 
-        <p class="text-white mt-3 text-sm sm:text-base max-w-full lg:max-w-md line-clamp-4">
+        <p
+          class="text-white mt-3 text-sm sm:text-base max-w-full lg:max-w-md leading-relaxed sm:leading-normal line-clamp-8"
+        >
           {{ dynamicScreen[currentSlide]?.overview }}
         </p>
 

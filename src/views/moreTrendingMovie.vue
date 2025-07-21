@@ -38,7 +38,7 @@ onMounted(() => {
 
 <template>
   <div class="h-[200px] flex justify-center items-center py-6 px-4 bg-[#911b1b]">
-    <h2 class="text-[40px] text-white">Check out more movies here</h2>
+    <h2 class="text-[28px] sm:text-[40px] text-white">Check out more movies here</h2>
   </div>
 
   <div v-if="loading" class="p-6">
@@ -65,20 +65,26 @@ onMounted(() => {
 
   <div
     v-if="moreTrendingMovie.length"
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4 px-10 pb-10"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4 mt-6 px-4 pb-10"
   >
-    <div v-for="(img, index) in moreTrendingMovie" :key="index" class="overflow-hidden shadow-lg">
+    <div
+      v-for="(img, index) in moreTrendingMovie"
+      :key="index"
+      class="bg-[#111] rounded-lg overflow-hidden shadow-md transition transform hover:scale-[1.02]"
+    >
       <img
-        :src="`https://image.tmdb.org/t/p/w780${img.backdrop_path}`"
-        class="w-full h-[400px] object-cover"
+        :src="`https://image.tmdb.org/t/p/w500${img.backdrop_path}`"
+        class="w-full h-[220px] sm:h-[300px] object-cover rounded-t-lg"
       />
-      <p class="text-gray-500 text-sm py-1 px-2 rounded">🎬 {{ img.release_date }}</p>
-      <h5 class="text-xl text-black font-semibold p-3">
-        {{ img.title }}
-      </h5>
-      <div class="flex flex-row items-center justify-between p-2">
-        <img src="/imdb.png" class="w-11 h-5" />
-        <p class="text-gray-500 font-semibold px-3 pt-1">🍅 {{ img.vote_average }} / 10</p>
+      <div class="p-3">
+        <p class="text-gray-400 text-xs mb-1">🎬 {{ img.release_date }}</p>
+        <h5 class="text-white text-base font-semibold truncate">
+          {{ img.title }}
+        </h5>
+        <div class="flex flex-row items-center justify-between mt-2">
+          <img src="/imdb.png" class="w-10 h-4" />
+          <p class="text-gray-400 text-sm font-medium">🍅 {{ img.vote_average }} / 10</p>
+        </div>
       </div>
     </div>
   </div>

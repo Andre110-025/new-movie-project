@@ -1,25 +1,39 @@
 <script setup></script>
 
 <template>
-  <div class="mt-[60px] flex flex-wrap justify-center gap-6">
-    <img src="/facebook.png" class="w-6 h-6" />
-    <img src="/twitter.png" class="w-6 h-6" />
-    <img src="/instagram.png" class="w-6 h-6" />
-    <img src="/youtube (1).png" class="w-6 h-6" />
-  </div>
+  <footer class="bg-[#1a1a1a] text-gray-400 mt-16 pt-8 pb-6">
+    <div class="flex justify-center gap-5 mb-6">
+      <img
+        src="/facebook2.png"
+        class="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300"
+      />
+      <img
+        src="/twitter2.png"
+        class="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300"
+      />
+      <img
+        src="/instagram2.png"
+        class="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300"
+      />
+      <img
+        src="/youtube (3).png"
+        class="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300"
+      />
+    </div>
 
-  <div
-    class="mt-5 flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 text-center"
-  >
-    <p class="text-gray-800 text-base cursor-pointer hover:text-[#911b1b]">Condition of use</p>
-    <p class="text-gray-800 text-base cursor-pointer hover:text-[#911b1b]">Privacy & Policy</p>
-    <p class="text-gray-800 text-base cursor-pointer hover:text-[#911b1b]">Press Room</p>
-  </div>
+    <div
+      class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 text-center mb-6"
+    >
+      <p class="cursor-pointer hover:text-[#911b1b] text-white">Terms of Use</p>
+      <p class="cursor-pointer hover:text-[#911b1b] text-white">Privacy Policy</p>
+      <p class="cursor-pointer hover:text-[#911b1b] text-white">Press Room</p>
+    </div>
 
-  <div class="mt-5">
-    <p class="text-center text-gray-500 text-sm sm:text-base py-4">
-      &copy; 2025 Your Company. Movie box by
-      <span class="font-semibold text-[#911b1b]">ANDRE</span>.
+    <div class="border-t border-gray-700 w-[90%] mx-auto mb-4"></div>
+
+    <p class="text-center text-white text-sm sm:text-base">
+      &copy; 2025 MovieBox by <span class="text-[#911b1b] font-semibold">ANDRE</span>. All rights
+      reserved.
     </p>
-  </div>
+  </footer>
 </template>
