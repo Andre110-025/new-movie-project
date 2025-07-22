@@ -92,18 +92,17 @@ const saveUserInfo = () => {
           <input
             type="tel"
             v-model="telephone"
-            minlength="10"
             class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#911b1b]"
           />
         </div>
         <div>
           <button
-            :disabled="!isFormValid"
+            :disabled="!isFormValid || telephone.length < 10"
             @click="saveUserInfo"
             :class="[
-              isFormValid
-                ? 'bg-[#911b1b] text-white hover:bg-[#b01e1e]'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed',
+              !isFormValid || telephone.length < 10
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-[#911b1b] text-white hover:bg-[#b01e1e]',
               'w-full py-3 rounded-lg font-semibold transition duration-300',
             ]"
           >
