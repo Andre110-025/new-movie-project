@@ -28,14 +28,6 @@ const isFormValid = computed(() => {
 })
 
 const saveUserInfo = () => {
-  // if (!isFormValid.value) {
-  //   toast.error('Form must be filled out ❌')
-  //   if (!isEmailValid.value) {
-  //     toast.error('Please enter a valid email address!')
-  //   }
-  //   return
-  // }
-
   const newUser = {
     firstName: firstName.value,
     lastName: lastName.value,
@@ -100,6 +92,7 @@ const saveUserInfo = () => {
           <input
             type="tel"
             v-model="telephone"
+            minlength="10"
             class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#911b1b]"
           />
         </div>

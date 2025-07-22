@@ -8,6 +8,7 @@ const loading = ref(false)
 const search = ref('')
 const searchedMovie = ref([])
 const route = useRoute()
+const error = ref('')
 
 const getSearchedMovie = async (count = 20) => {
   const query = search.value || route.query.q
@@ -19,6 +20,7 @@ const getSearchedMovie = async (count = 20) => {
   try {
     loading.value = true
     searchedMovie.value = []
+    error.value = ''
 
     const response = await apiFunction.get(`/search/movie?query=${query}`)
     console.log('You searched:', response)
@@ -28,6 +30,10 @@ const getSearchedMovie = async (count = 20) => {
     }
 
     searchedMovie.value = response.data.results.slice(0, count)
+
+    if (response.data.results.length === 0) {
+      error.value = '⚠️ No results found check for another movie'
+    }
   } catch (err) {
     console.error(err)
     toast.error('Something went wrong! Check Internet Connection...')
@@ -70,9 +76,15 @@ onMounted(() => {
       ></div>
     </div>
 
+    <div v-else-if="error" class="flex justify-center items-center h-64 animate-fadeUp">
+      <p class="text-[#911b1b] text-lg font-semibold text-center">
+        {{ error }}
+      </p>
+    </div>
+
     <RouterLink
       to="/movieHome"
-      class="flex flex-row items-center gap-1 mt-10 ml-10"
+      class="flex flex-row items-center gap-1 mt-10 ml-4"
       v-if="searchedMovie.length"
     >
       <img src="/next2.png" class="w-6 h-6" />
@@ -82,18 +94,17 @@ onMounted(() => {
     <div
       v-if="searchedMovie.length"
       ref="searchScrollContainer"
-      class="w-full max-w-[1250px] mx-auto mt-10 px-4 flex overflow-x-auto gap-4 scroll-smooth animate-fadeUp"
-      style="scrollbar-width: none; -ms-overflow-style: none"
+      class="w-full max-w-[1250px] mx-auto mt-10 px-4 flex flex-col gap-4 md:flex-row md:overflow-x-auto scroll-smooth animate-fadeUp"
     >
       <div
         v-for="(img, index) in searchedMovie"
         :key="index"
-        class="min-w-[300px] bg-[#111] rounded-lg overflow-hidden shadow-md flex-shrink-0 transition transform hover:scale-[1.02]"
+        class="bg-[#111] rounded-lg overflow-hidden shadow-md transition transform hover:scale-[1.02]"
       >
         <img
           :src="`https://image.tmdb.org/t/p/w500${img.poster_path}`"
           alt="Movie Poster"
-          class="w-[300px] h-[400px] object-cover rounded-t-lg"
+          class="w-full md:w-[300px] h-[400px] object-cover rounded-t-lg"
         />
         <div class="p-3">
           <p class="text-gray-400 text-xs mb-1">🎬 {{ img.release_date }}</p>

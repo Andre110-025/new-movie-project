@@ -129,7 +129,7 @@ onBeforeUnmount(() => {
         </div>
 
         <p
-          class="text-white mt-3 text-sm sm:text-base max-w-full lg:max-w-md leading-relaxed sm:leading-normal line-clamp-8"
+          class="text-white mt-3 text-sm sm:text-base max-w-full lg:max-w-md leading-relaxed sm:leading-normal line-clamp-6"
         >
           {{ dynamicScreen[currentSlide]?.overview }}
         </p>

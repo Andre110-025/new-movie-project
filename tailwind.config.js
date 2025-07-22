@@ -22,11 +22,16 @@ export default {
           '0%, 100%': { opacity: '1', transform: 'scale(1)' },
           '50%': { opacity: '0.85', transform: 'scale(1.05)' },
         },
+        bounceDelay: {
+          '0%, 80%, 100%': { transform: 'scaleY(0.4)' },
+          '40%': { transform: 'scaleY(1.0)' },
+        },
       },
       animation: {
         fadeInUp: 'fadeInUp 0.8s ease-out',
         fadeUp: 'fadeUp 0.6s ease-out',
         pulseSlow: 'pulseSlow 2s ease-in-out infinite',
+        bounceDelay: 'bounceDelay 1s infinite ease-in-out',
       },
     },
   },

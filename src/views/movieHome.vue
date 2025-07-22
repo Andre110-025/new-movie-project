@@ -39,7 +39,6 @@ const reloadPage = () => {
 
     <div v-else>
       <header>
-        <!-- dynamic header -->
         <HeroPage />
       </header>
 
