@@ -1,37 +1,66 @@
 <script setup>
 import apiFunction from '@/app.service'
-import { onMounted, ref } from 'vue'
+import FooterView from '@/components/footerView.vue'
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
 const loading = ref(false)
 const moreComingMovie = ref([])
+const isFetchingMovie = ref(false)
+const page = ref(1)
+const moviesPerPage = 8
+const allMoviesFetched = ref(false)
 
-const getMoreComingMovies = async (count = 20) => {
+const getMoreComingMovies = async () => {
+  if (isFetchingMovie.value || allMoviesFetched.value) return
+
+  isFetchingMovie.value = true
   try {
-    loading.value = true
-    moreComingMovie.value = []
-
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    const response = await apiFunction.get(`/movie/upcoming`)
-    console.log('More Coming Movies:', response)
+    const response = await apiFunction.get(`/movie/upcoming?page=${page.value}`)
+    console.log('See more coming Movies (page ' + page.value + '):', response)
 
     if (response.status !== 200) {
       throw new Error('Failed to get coming movies')
     }
 
-    moreComingMovie.value = response.data.results.slice(0, count)
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    const results = response.data.results
+
+    if (results.length) {
+      moreComingMovie.value.push(...results.slice(0, moviesPerPage))
+      page.value++
+    } else {
+      allMoviesFetched.value = true
+    }
   } catch (err) {
     console.error(err)
     toast.error('Something went wrong! Check Internet Connection...')
   } finally {
     loading.value = false
+    isFetchingMovie.value = false
+  }
+}
+
+const handleScroll = () => {
+  const scrollY = window.scrollY
+  const viewportHeight = window.innerHeight
+  const fullHeight = document.documentElement.scrollHeight
+
+  if (scrollY + viewportHeight >= fullHeight * 0.9) {
+    getMoreComingMovies()
   }
 }
 
 onMounted(() => {
+  loading.value = true
   getMoreComingMovies()
+  window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>
 
@@ -55,7 +84,7 @@ onMounted(() => {
 
   <RouterLink
     to="/movieHome"
-    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-10"
+    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-6"
     v-if="moreComingMovie.length"
   >
     <img src="/next2.png" class="w-6 h-6" />
@@ -88,4 +117,16 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <div v-if="isFetchingMovie" class="flex justify-center py-6">
+    <div
+      class="w-8 h-8 border-4 border-[#911b1b] border-t-transparent rounded-full animate-spin"
+    ></div>
+  </div>
+
+  <div v-if="allMoviesFetched" class="flex justify-center py-6">
+    <p class="text-[#911b1b] text-lg font-semibold">You’ve reached the end of the list!</p>
+  </div>
+  <footer>
+    <FooterView />
+  </footer>
 </template>

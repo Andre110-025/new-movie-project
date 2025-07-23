@@ -3,12 +3,34 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import apiFunction from '@/app.service'
+import FooterView from '@/components/footerView.vue'
 
 const loading = ref(false)
 const search = ref('')
 const searchedMovie = ref([])
 const route = useRoute()
 const error = ref('')
+const suggestion = ref([])
+
+const getSuggestion = async () => {
+  if (search.value.trim().length < 3) {
+    suggestion.value = []
+    return
+  }
+
+  try {
+    const response = await apiFunction.get(`/search/movie?query=${search.value}`)
+    suggestion.value = response.data.results.slice(0, 3)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const selectSuggestion = (title) => {
+  search.value = title
+  suggestion.value = []
+  getSearchedMovie()
+}
 
 const getSearchedMovie = async (count = 20) => {
   const query = search.value || route.query.q
@@ -58,9 +80,24 @@ onMounted(() => {
         <input
           type="text"
           v-model="search"
+          @input="getSuggestion"
           placeholder="Search for movies..."
           class="w-full pl-12 pr-20 py-3 rounded-full text-sm text-gray-800 bg-white border border-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-[#911b1b] outline-none transition"
         />
+        <ul
+          v-if="suggestion.length && search"
+          class="absolute left-0 right-0 top-full bg-[#111] text-white rounded-lg mt-1 shadow-lg max-h-60 overflow-y-auto z-10"
+        >
+          <li
+            v-for="(movie, index) in suggestion"
+            :key="index"
+            @click="selectSuggestion(movie.title)"
+            class="p-2 hover:bg-primary cursor-pointer"
+          >
+            {{ movie.title }}
+          </li>
+        </ul>
+
         <button
           @click="getSearchedMovie()"
           class="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 rounded-full bg-[#911b1b] text-white font-semibold text-sm hover:bg-[#b01e1e] transition duration-300"
@@ -76,10 +113,17 @@ onMounted(() => {
       ></div>
     </div>
 
-    <div v-else-if="error" class="flex justify-center items-center h-64 animate-fadeUp">
+    <div
+      v-else-if="error"
+      class="flex flex-col justify-center items-center h-64 animate-fadeUp space-y-4"
+    >
       <p class="text-[#911b1b] text-lg font-semibold text-center">
         {{ error }}
       </p>
+      <RouterLink to="/movieHome" class="flex flex-row items-center gap-1">
+        <img src="/next2.png" class="w-6 h-6" />
+        <span class="text-[#911b1b] font-medium">Go back</span>
+      </RouterLink>
     </div>
 
     <RouterLink
@@ -93,8 +137,7 @@ onMounted(() => {
 
     <div
       v-if="searchedMovie.length"
-      ref="searchScrollContainer"
-      class="w-full max-w-[1250px] mx-auto mt-10 px-4 flex flex-col gap-4 md:flex-row md:overflow-x-auto scroll-smooth animate-fadeUp"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4 mt-10 px-4 animate-fadeUp"
     >
       <div
         v-for="(img, index) in searchedMovie"
@@ -103,8 +146,7 @@ onMounted(() => {
       >
         <img
           :src="`https://image.tmdb.org/t/p/w500${img.poster_path}`"
-          alt="Movie Poster"
-          class="w-full md:w-[300px] h-[400px] object-cover rounded-t-lg"
+          class="w-full h-[220px] sm:h-[300px] object-cover rounded-t-lg"
         />
         <div class="p-3">
           <p class="text-gray-400 text-xs mb-1">🎬 {{ img.release_date }}</p>
@@ -119,4 +161,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <footer>
+    <FooterView />
+  </footer>
 </template>

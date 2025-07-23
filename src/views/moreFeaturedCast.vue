@@ -1,5 +1,6 @@
 <script setup>
 import apiFunction from '@/app.service'
+import FooterView from '@/components/footerView.vue'
 import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { toast } from 'vue3-toastify'
@@ -56,7 +57,7 @@ onMounted(() => {
 
   <RouterLink
     to="/movieHome"
-    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-10"
+    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-4"
     v-if="moreFeaturedCast.length"
   >
     <img src="/next2.png" class="w-6 h-6" />
@@ -85,4 +86,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <footer>
+    <FooterView />
+  </footer>
 </template>

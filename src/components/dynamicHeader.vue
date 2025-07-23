@@ -1,14 +1,39 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import IconSearch from './IconSearch.vue'
 import apiFunction from '@/app.service'
 
 const loading = ref(false)
 const dynamicScreen = ref([])
 const error = ref('')
+const suggestions = ref([])
 const search = ref('')
 const currentSlide = ref(0)
 let sliderId = null
+
+const getMovieSuggestion = async () => {
+  if (search.value.trim().length < 3) {
+    suggestions.value = []
+    return
+  }
+
+  try {
+    const response = await apiFunction.get(`/search/movie?query=${search.value}`)
+    suggestions.value = response.data.results.slice(0, 3)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const goToSearch = (title) => {
+  search.value = title
+  suggestions.value = []
+  router.push({ path: '/ImageResult', query: { q: search } })
+}
+
+watch(search, (newValue) => {
+  getMovieSuggestion()
+})
 
 const getDynamicHeader = async () => {
   try {
@@ -86,6 +111,20 @@ onBeforeUnmount(() => {
           placeholder="Search for movies..."
           class="w-full pl-12 pr-20 py-3 sm:py-[10px] rounded-lg text-sm text-white bg-transparent border-2 border-white border-opacity-70 placeholder-white placeholder-opacity-60 focus:ring-1 focus:ring-white focus:border-white outline-none transition"
         />
+        <ul
+          v-if="suggestions.length && search"
+          class="absolute w-full bg-[#111] rounded-lg mt-2 shadow-lg text-white z-20"
+        >
+          <li
+            v-for="(movie, index) in suggestions"
+            :key="index"
+            @click="goToSearch(movie.title)"
+            class="p-2 hover:bg-[#911b1b] cursor-pointer transition"
+          >
+            {{ movie.title }}
+          </li>
+        </ul>
+
         <RouterLink
           :to="{ path: '/ImageResult', query: { q: search } }"
           class="absolute right-1 top-1/2 -translate-y-1/2 px-3 sm:px-4 py-2 rounded-lg mainColor text-white font-semibold text-sm hover:bg-[#b01e1e] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#911b1b] transition duration-300 shadow-lg"

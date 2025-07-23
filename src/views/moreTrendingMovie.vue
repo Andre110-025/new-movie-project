@@ -1,38 +1,66 @@
 <script setup>
 import apiFunction from '@/app.service'
-import { onMounted, ref } from 'vue'
+import FooterView from '@/components/footerView.vue'
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
 const loading = ref(false)
 const moreTrendingMovie = ref([])
-const error = ref('')
+const isFetchingMovie = ref(false) // fetching for more movies
+const page = ref(1)
+const moviesPerPage = 8
+const allMoviesFetched = ref(false) // could be thousands
 
-const getMoreTrendingMovies = async (count = 20) => {
+const getMoreTrendingMovies = async () => {
+  if (isFetchingMovie.value || allMoviesFetched.value) return
+
+  isFetchingMovie.value = true
   try {
-    loading.value = true
-    moreTrendingMovie.value = []
-
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    const response = await apiFunction.get(`/trending/movie/week`)
-    console.log('More Trending Movies:', response)
+    const response = await apiFunction.get(`/trending/movie/week?page=${page.value}`)
+    console.log('More Trending Movies (page ' + page.value + '):', response)
 
     if (response.status !== 200) {
       throw new Error('Failed to get popular movies')
     }
 
-    moreTrendingMovie.value = response.data.results.slice(0, count)
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    const results = response.data.results
+
+    if (results.length) {
+      moreTrendingMovie.value.push(...results.slice(0, moviesPerPage))
+      page.value++
+    } else {
+      allMoviesFetched.value = true
+    }
   } catch (err) {
     console.error(err)
     toast.error('Something went wrong! Check Internet Connection...')
   } finally {
     loading.value = false
+    isFetchingMovie.value = false
+  }
+}
+
+const handleScroll = () => {
+  const scrollY = window.scrollY
+  const viewportHeight = window.innerHeight
+  const fullHeight = document.documentElement.scrollHeight
+
+  if (scrollY + viewportHeight >= fullHeight * 0.9) {
+    getMoreTrendingMovies()
   }
 }
 
 onMounted(() => {
+  loading.value = true
   getMoreTrendingMovies()
+  window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>
 
@@ -56,7 +84,7 @@ onMounted(() => {
 
   <RouterLink
     to="/movieHome"
-    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-10"
+    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-4"
     v-if="moreTrendingMovie.length"
   >
     <img src="/next2.png" class="w-6 h-6" />
@@ -88,4 +116,16 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <div v-if="isFetchingMovie" class="flex justify-center py-6">
+    <div
+      class="w-8 h-8 border-4 border-[#911b1b] border-t-transparent rounded-full animate-spin"
+    ></div>
+  </div>
+
+  <div v-if="allMoviesFetched" class="flex justify-center py-6">
+    <p class="text-[#911b1b] text-lg font-semibold">You’ve reached the end of the list!</p>
+  </div>
+  <footer>
+    <FooterView />
+  </footer>
 </template>

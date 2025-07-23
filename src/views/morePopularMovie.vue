@@ -1,45 +1,77 @@
 <script setup>
 import apiFunction from '@/app.service'
-import { onMounted, ref } from 'vue'
+import FooterView from '@/components/footerView.vue'
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
 const loading = ref(false)
+const isFetching = ref(false) // For bottom loader
+const page = ref(1) //results is coming page by page 1-20
+const moviesPerPage = 8
 const morePopularMovie = ref([])
+const allMoviesFetched = ref(false) // Flag when no more pages
 
-const getMorePopularMovies = async (count = 20) => {
+const getMorePopularMovies = async () => {
+  if (isFetching.value || allMoviesFetched.value) return
+
+  isFetching.value = true
   try {
-    loading.value = true
-    morePopularMovie.value = []
-
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    const response = await apiFunction.get(`/movie/popular`)
-    console.log('More Popular Movies:', response)
+    const response = await apiFunction.get(`/movie/popular?page=${page.value}`)
+    console.log('More Popular Movies (page ' + page.value + '):', response)
 
     if (response.status !== 200) {
       throw new Error('Failed to get popular movies')
     }
 
-    morePopularMovie.value = response.data.results.slice(0, count)
+    const results = response.data.results
+
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    if (results.length) {
+      morePopularMovie.value.push(...results.slice(0, moviesPerPage))
+      page.value++ // Increment for next page
+    } else {
+      allMoviesFetched.value = true // No more movies to load
+    }
   } catch (err) {
     console.error(err)
     toast.error('Something went wrong! Check Internet Connection...')
   } finally {
+    isFetching.value = false
     loading.value = false
   }
 }
 
+// Detect scroll to bottom
+const handleScroll = () => {
+  const scrollY = window.scrollY
+  const viewportHeight = window.innerHeight
+  const fullHeight = document.documentElement.scrollHeight
+
+  if (scrollY + viewportHeight >= fullHeight * 0.9) {
+    getMorePopularMovies()
+  }
+}
+
 onMounted(() => {
+  loading.value = true
   getMorePopularMovies()
+  window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>
 
 <template>
+  <!-- Header -->
   <div class="h-[200px] flex justify-center items-center py-6 px-4 bg-[#911b1b]">
     <h2 class="text-[28px] sm:text-[40px] text-white">Check out more movies here</h2>
   </div>
 
+  <!-- Loading Skeleton -->
   <div v-if="loading" class="p-6">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div v-for="n in 4" :key="n" class="bg-gray-300 rounded-xl animate-pulse shadow-lg">
@@ -53,15 +85,17 @@ onMounted(() => {
     </div>
   </div>
 
+  <!-- Back Link -->
   <RouterLink
     to="/movieHome"
-    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-10"
+    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-4"
     v-if="morePopularMovie.length"
   >
     <img src="/next2.png" class="w-6 h-6" />
     <span class="text-[#911b1b] font-medium">Go back</span>
   </RouterLink>
 
+  <!-- Movie Grid -->
   <div
     v-if="morePopularMovie.length"
     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4 mt-6 px-4 pb-10"
@@ -87,4 +121,20 @@ onMounted(() => {
       </div>
     </div>
   </div>
+
+  <!-- Infinite Scroll Loader -->
+  <div v-if="isFetching" class="flex justify-center py-6">
+    <div
+      class="w-8 h-8 border-4 border-[#911b1b] border-t-transparent rounded-full animate-spin"
+    ></div>
+  </div>
+
+  <!-- End of List -->
+  <div v-if="allMoviesFetched" class="flex justify-center py-6">
+    <p class="text-[#911b1b] text-lg font-semibold">You’ve reached the end of the list!</p>
+  </div>
+
+  <footer>
+    <FooterView />
+  </footer>
 </template>
