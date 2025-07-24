@@ -9,7 +9,7 @@ const loading = ref(false)
 const moreFeaturedCast = ref([])
 const movieId = 541671
 
-const getMoreFeaturedCast = async (count = 20) => {
+const getMoreFeaturedCast = async (count = 25) => {
   try {
     loading.value = true
     moreFeaturedCast.value = []
@@ -57,32 +57,35 @@ onMounted(() => {
 
   <RouterLink
     to="/movieHome"
-    class="flex flex-row items-center gap-1 mt-16 mb-4 ml-4"
+    class="flex items-center gap-1 mt-9 px-3 sm:px-4 lg:px-0 max-w-[1250px] mx-auto"
     v-if="moreFeaturedCast.length"
   >
-    <img src="/next2.png" class="w-6 h-6" />
-    <span class="text-[#911b1b] font-medium">Go back</span>
+    <img src="/next2.png" class="w-5 h-5 sm:w-6 sm:h-6" />
+    <span class="text-[#911b1b] font-medium text-sm sm:text-base">Go back</span>
   </RouterLink>
 
-  <div
-    v-if="moreFeaturedCast.length"
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4 mt-6 px-4 pb-10"
-  >
+  <div class="relative w-full max-w-[1250px] mx-auto mt-6 px-3 sm:px-4">
     <div
-      v-for="(img, index) in moreFeaturedCast"
-      :key="index"
-      class="bg-[#111] rounded-lg overflow-hidden shadow-md transition transform hover:scale-[1.02]"
+      v-if="moreFeaturedCast.length"
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
     >
-      <img
-        :src="`https://image.tmdb.org/t/p/w500${img.profile_path}`"
-        alt="Cast Member"
-        class="w-full h-[220px] sm:h-[300px] object-cover rounded-t-lg"
-      />
-      <div class="p-3">
-        <p class="text-white text-base font-semibold truncate">
-          {{ img.name }}
-        </p>
-        <p class="text-gray-400 text-sm mt-1 truncate">🎭 {{ img.character }}</p>
+      <div
+        v-for="(img, index) in moreFeaturedCast"
+        :key="index"
+        class="bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
+      >
+        <img
+          :src="`https://image.tmdb.org/t/p/w500${img.profile_path}`"
+          class="w-full h-[180px] sm:h-[250px] object-cover rounded-t-xl"
+        />
+        <div class="p-2 sm:p-3">
+          <p class="text-gray-400 text-xs sm:text-sm mb-0.5 truncate">
+            {{ img.name }}
+          </p>
+          <p class="text-white text-sm sm:text-base font-semibold leading-tight truncate">
+            🎭 {{ img.character }}
+          </p>
+        </div>
       </div>
     </div>
   </div>

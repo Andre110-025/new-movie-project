@@ -38,7 +38,7 @@ const saveUserInfo = () => {
   userInfo.value.push(newUser)
   console.log(newUser)
 
-  toast.success('Login Successful')
+  toast.success(`You're now logged in, ${firstName.value}.`)
 
   setTimeout(() => {
     router.push('/movieHome')
@@ -53,48 +53,62 @@ const saveUserInfo = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#911b1b] flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg">
-      <div class="flex justify-center mb-6">
-        <div class="w-16 h-16 bg-[#911b1b] rounded-full flex items-center justify-center">
-          <img src="/ChatGPT_Image_Jul_7__2025__12_00_58_PM-removebg-preview.png" class="w-8 h-8" />
+  <div class="min-h-screen bg-[#911b1b] flex items-center justify-center p-3">
+    <div class="max-w-sm w-full bg-white p-6 sm:p-8 rounded-2xl shadow-md sm:shadow-lg">
+      <!-- Avatar -->
+      <div class="flex justify-center mb-5">
+        <div
+          class="w-14 h-14 sm:w-16 sm:h-16 bg-[#911b1b] rounded-full flex items-center justify-center"
+        >
+          <img
+            src="/ChatGPT_Image_Jul_7__2025__12_00_58_PM-removebg-preview.png"
+            class="w-7 h-7 sm:w-8 sm:h-8"
+          />
         </div>
       </div>
 
-      <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Sign Up</h2>
-      <form @submit.prevent="saveUserInfo" class="space-y-5">
+      <!-- Heading -->
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-5">Sign Up</h2>
+
+      <!-- Form -->
+      <form @submit.prevent="saveUserInfo" class="space-y-4 sm:space-y-5">
         <div>
           <label class="block text-sm font-medium text-gray-700">First Name</label>
           <input
             type="text"
             v-model="firstName"
-            class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#911b1b]"
+            class="w-full mt-1 px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#911b1b] text-sm"
           />
         </div>
+
         <div>
           <label class="block text-sm font-medium text-gray-700">Last Name</label>
           <input
             type="text"
             v-model="lastName"
-            class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#911b1b]"
+            class="w-full mt-1 px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#911b1b] text-sm"
           />
         </div>
+
         <div>
           <label class="block text-sm font-medium text-gray-700">Email</label>
           <input
             type="email"
             v-model="email"
-            class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#911b1b]"
+            class="w-full mt-1 px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#911b1b] text-sm"
           />
         </div>
+
         <div>
           <label class="block text-sm font-medium text-gray-700">Phone Number</label>
           <input
             type="tel"
             v-model="telephone"
-            class="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#911b1b]"
+            class="w-full mt-1 px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#911b1b] text-sm"
           />
         </div>
+
+        <!-- Button -->
         <div>
           <button
             :disabled="!isFormValid || telephone.length < 10"
@@ -103,7 +117,7 @@ const saveUserInfo = () => {
               !isFormValid || telephone.length < 10
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-[#911b1b] text-white hover:bg-[#b01e1e]',
-              'w-full py-3 rounded-lg font-semibold transition duration-300',
+              'w-full py-2 rounded-lg font-medium text-sm transition duration-300',
             ]"
           >
             Sign In

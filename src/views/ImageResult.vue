@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import apiFunction from '@/app.service'
 import FooterView from '@/components/footerView.vue'
+import IconSearchTwo from '@/components/IconSearchTwo.vue'
 
 const loading = ref(false)
 const search = ref('')
@@ -76,13 +77,13 @@ onMounted(() => {
   <div class="min-h-screen bg-white text-gray-800">
     <div class="h-[250px] flex justify-center items-center py-6 px-4 bg-[#911b1b]">
       <div class="relative w-full max-w-2xl">
-        <IconSearch class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white" />
+        <IconSearchTwo class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white" />
         <input
           type="text"
           v-model="search"
           @input="getSuggestion"
           placeholder="Search for movies..."
-          class="w-full pl-12 pr-20 py-3 rounded-full text-sm text-gray-800 bg-white border border-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-[#911b1b] outline-none transition"
+          class="w-full pl-12 pr-20 py-3 sm:py-[10px] rounded-lg text-sm text-white bg-transparent border-2 border-white border-opacity-70 placeholder-white placeholder-opacity-60 focus:ring-1 focus:ring-white focus:border-white outline-none transition"
         />
         <ul
           v-if="suggestion.length && search"
@@ -100,7 +101,7 @@ onMounted(() => {
 
         <button
           @click="getSearchedMovie()"
-          class="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 rounded-full bg-[#911b1b] text-white font-semibold text-sm hover:bg-[#b01e1e] transition duration-300"
+          class="absolute right-1 top-1/2 -translate-y-1/2 px-3 sm:px-4 py-2 rounded-lg bg-white text-[#911b1b] font-semibold text-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-400 transition duration-300 shadow-lg"
         >
           Search
         </button>

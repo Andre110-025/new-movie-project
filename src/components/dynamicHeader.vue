@@ -111,9 +111,10 @@ onBeforeUnmount(() => {
           placeholder="Search for movies..."
           class="w-full pl-12 pr-20 py-3 sm:py-[10px] rounded-lg text-sm text-white bg-transparent border-2 border-white border-opacity-70 placeholder-white placeholder-opacity-60 focus:ring-1 focus:ring-white focus:border-white outline-none transition"
         />
+
         <ul
           v-if="suggestions.length && search"
-          class="absolute w-full bg-[#111] rounded-lg mt-2 shadow-lg text-white z-20"
+          class="absolute z-20 w-full bg-[#111] rounded-lg mt-2 shadow-lg text-white"
         >
           <li
             v-for="(movie, index) in suggestions"

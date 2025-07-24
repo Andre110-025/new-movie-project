@@ -17,7 +17,7 @@ const trendingScrollContainer = ref(null)
 //   imagerContainer?.scrollBy({ left: -300, behavior: 'smooth' })
 // }
 
-const getTrendingMovie = async (count = 4) => {
+const getTrendingMovie = async (count = 5) => {
   try {
     isLoading.value = true
     trendingMovie.value = []
@@ -72,28 +72,32 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="relative w-full max-w-[1250px] mx-auto mt-10 px-4">
+    <div class="relative w-full max-w-[1250px] mx-auto mt-6 px-3 sm:px-4">
       <div
         v-if="trendingMovie.length"
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
       >
         <div
           v-for="(img, index) in trendingMovie"
           :key="index"
-          class="bg-[#111] rounded-lg overflow-hidden shadow-md transition transform hover:scale-[1.02]"
+          class="bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w780${img.backdrop_path}`"
-            class="w-full h-[220px] sm:h-[300px] object-cover rounded-t-lg"
+            class="w-full h-[180px] sm:h-[250px] object-cover rounded-t-xl"
           />
-          <div class="p-3">
-            <p class="text-gray-400 text-xs mb-1">🎬 {{ img.release_date }}</p>
-            <h5 class="text-white text-base font-semibold truncate">
+          <div class="p-2 sm:p-3">
+            <p class="text-gray-400 text-xs sm:text-sm mb-0.5 truncate">
+              🎬 {{ img.release_date }}
+            </p>
+            <h5 class="text-white text-sm sm:text-base font-semibold leading-tight truncate">
               {{ img.title }}
             </h5>
-            <div class="flex flex-row items-center justify-between mt-2">
-              <img src="/imdb.png" class="w-10 h-4" />
-              <p class="text-gray-400 text-sm font-medium">🍅 {{ img.vote_average }} / 10</p>
+            <div class="flex items-center justify-between mt-1.5">
+              <img src="/imdb.png" class="w-8 sm:w-10 h-3 sm:h-4" />
+              <p class="text-gray-400 text-xs sm:text-sm font-medium">
+                🍅 {{ img.vote_average }} / 10
+              </p>
             </div>
           </div>
         </div>
