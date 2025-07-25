@@ -24,9 +24,29 @@ const router = createRouter({
       component: () => import('@/views/morePopularMovie.vue'),
     },
     {
+      path: '/moreTrendingInNigeria',
+      name: 'moreTrendingInNigeria',
+      component: () => import('@/views/moreTrendingInNigeria.vue'),
+    },
+    {
+      path: '/moreTrendingInUs',
+      name: 'moreTrendingInUs',
+      component: () => import('@/views/moreTrendingInUs.vue'),
+    },
+    {
       path: '/moreTrendingMovie',
       name: 'moreTrendingMovie',
       component: () => import('@/views/moreTrendingMovie.vue'),
+    },
+    {
+      path: '/tvShows',
+      name: 'tvShows',
+      component: () => import('@/views/moreTvShows.vue'),
+    },
+    {
+      path: '/moreTvShows',
+      name: 'moreTvShows',
+      component: () => import('@/views/moreTvShows.vue'),
     },
     {
       path: '/moreComingSoon',

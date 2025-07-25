@@ -9,30 +9,30 @@ const loading = ref(false)
 const isFetching = ref(false) // For bottom loader
 const page = ref(1) //results is coming page by page 1-20
 const moviesPerPage = 10
-const morePopularMovie = ref([])
+const moreTrendingInUs = ref([])
 const allMoviesFetched = ref(false) // Flag when no more pages
 
-const getMorePopularMovies = async () => {
+const getTrendingInUs = async () => {
   if (isFetching.value || allMoviesFetched.value) return
 
   isFetching.value = true
   try {
-    const response = await apiFunction.get(`/movie/popular?page=${page.value}`)
-    console.log('More Popular Movies (page ' + page.value + '):', response)
+    const response = await apiFunction.get(`/movie/top_rated?region=US?page=${page.value}`)
+    console.log('more US trending movies(page ' + page.value + '):', response)
 
     if (response.status !== 200) {
       throw new Error('Failed to get popular movies')
     }
 
-    const results = response.data.results
+    const results = response.data.results //this stores the full results of page ig
 
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
     if (results.length) {
-      morePopularMovie.value.push(...results.slice(0, moviesPerPage))
-      page.value++ // Increment for next page
+      moreTrendingInUs.value.push(...results.slice(0, moviesPerPage))
+      page.value++
     } else {
-      allMoviesFetched.value = true // No more movies to load
+      allMoviesFetched.value = true
     }
   } catch (err) {
     console.error(err)
@@ -43,20 +43,19 @@ const getMorePopularMovies = async () => {
   }
 }
 
-// Detect scroll to bottom
 const handleScroll = () => {
   const scrollY = window.scrollY
   const viewportHeight = window.innerHeight
   const fullHeight = document.documentElement.scrollHeight
 
   if (scrollY + viewportHeight >= fullHeight * 0.9) {
-    getMorePopularMovies()
+    getTrendingInUs()
   }
 }
 
 onMounted(() => {
   loading.value = true
-  getMorePopularMovies()
+  getTrendingInUs()
   window.addEventListener('scroll', handleScroll)
 })
 
@@ -68,7 +67,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="h-[200px] flex justify-center items-center py-6 px-4 bg-[#911b1b]">
     <h2 class="text-[28px] sm:text-[40px] text-white text-center sm:text-left">
-      Check out more Popular Movies here
+      Check out more Popular US Movies here
     </h2>
   </div>
 
@@ -92,7 +91,7 @@ onBeforeUnmount(() => {
   <RouterLink
     to="/movieHome"
     class="flex items-center gap-1 mt-9 px-3 sm:px-4 lg:px-0 max-w-[1250px] mx-auto"
-    v-if="morePopularMovie.length"
+    v-if="moreTrendingInUs.length"
   >
     <img src="/next2.png" class="w-5 h-5 sm:w-6 sm:h-6" />
     <span class="text-[#911b1b] font-medium text-sm sm:text-base">Go back</span>
@@ -100,11 +99,11 @@ onBeforeUnmount(() => {
 
   <div class="relative w-full max-w-[1250px] mx-auto mt-6 px-3 sm:px-4">
     <div
-      v-if="morePopularMovie.length"
+      v-if="moreTrendingInUs.length"
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 animate-fadeUp"
     >
       <div
-        v-for="(img, index) in morePopularMovie"
+        v-for="(img, index) in moreTrendingInUs"
         :key="index"
         class="bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
       >
@@ -128,14 +127,12 @@ onBeforeUnmount(() => {
     </div>
   </div>
 
-  <!-- Infinite Scroll Loader -->
   <div v-if="isFetching" class="flex justify-center py-6">
     <div
       class="w-8 h-8 border-4 border-[#911b1b] border-t-transparent rounded-full animate-spin"
     ></div>
   </div>
 
-  <!-- End of List -->
   <div v-if="allMoviesFetched" class="flex justify-center py-6">
     <p class="text-[#911b1b] text-lg font-semibold">You’ve reached the end of the list!</p>
   </div>

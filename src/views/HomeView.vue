@@ -55,7 +55,6 @@ const saveUserInfo = () => {
 <template>
   <div class="min-h-screen bg-[#911b1b] flex items-center justify-center p-3">
     <div class="max-w-sm w-full bg-white p-6 sm:p-8 rounded-2xl shadow-md sm:shadow-lg">
-      <!-- Avatar -->
       <div class="flex justify-center mb-5">
         <div
           class="w-14 h-14 sm:w-16 sm:h-16 bg-[#911b1b] rounded-full flex items-center justify-center"
@@ -67,10 +66,8 @@ const saveUserInfo = () => {
         </div>
       </div>
 
-      <!-- Heading -->
       <h2 class="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-5">Sign Up</h2>
 
-      <!-- Form -->
       <form @submit.prevent="saveUserInfo" class="space-y-4 sm:space-y-5">
         <div>
           <label class="block text-sm font-medium text-gray-700">First Name</label>
@@ -108,7 +105,6 @@ const saveUserInfo = () => {
           />
         </div>
 
-        <!-- Button -->
         <div>
           <button
             :disabled="!isFormValid || telephone.length < 10"

@@ -7,7 +7,19 @@ import { RouterLink } from 'vue-router'
 const loading = ref(false)
 const featuredCast = ref([])
 const featuredScrollContainer = ref(null)
-const movieId = 541671
+const movieIds = [
+  541671, // ballerina
+  10191, // Godzilla x Kong: The New Empire
+  14537, // Godzilla Minus One
+  1071585, // The First Omen
+  792307, // Poor Things
+  1011477, // The Garfield Movie
+  872585, // Oppenheimer
+  1011985, // Kung Fu Panda 4
+  653346, // Kingdom of the Planet of the Apes
+  11544, // Wonka
+  634492, // Madam Web
+]
 
 // const scrollRight = (imageContainer) => {
 //   imageContainer?.scrollBy({ left: 300, behavior: 'smooth' })
@@ -17,21 +29,22 @@ const movieId = 541671
 //   imageContainer?.scrollBy({ left: -300, behavior: 'smooth' })
 // }
 
-const getFeaturedCast = async (count = 5) => {
+const getFeaturedCast = async () => {
+  const selectRandomIds = movieIds[Math.floor(Math.random() * movieIds.length)]
   try {
     loading.value = true
     featuredCast.value = []
 
     await new Promise((resolve) => setTimeout(resolve, 6000))
 
-    const response = await apiFunction.get(`movie/${movieId}/credits`)
+    const response = await apiFunction.get(`movie/${selectRandomIds}/credits`)
     console.log('Featured cast:', response)
 
     if (response.status !== 200) {
       throw new Error('Failed to get featured cast')
     }
 
-    featuredCast.value = response.data.cast.slice(0, count)
+    featuredCast.value = response.data.cast.slice(0, 5)
   } catch (err) {
     console.error(err)
     toast.error('Something went wrong. Check Internet Connection')
@@ -59,11 +72,16 @@ onMounted(() => {
       </RouterLink>
     </div>
 
-    <div v-if="loading" class="p-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div v-for="n in 4" :key="n" class="bg-gray-300 rounded-xl animate-pulse shadow-lg">
-          <div class="h-[400px] w-full rounded-t-xl"></div>
-          <div class="p-4 space-y-2">
+    <div v-if="loading" class="relative w-full max-w-[1250px] mx-auto mt-6 px-3 sm:px-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+        <div
+          v-for="n in 5"
+          :key="n"
+          class="bg-gray-300 rounded-xl animate-pulse shadow-lg overflow-hidden"
+        >
+          <div class="w-full h-[180px] sm:h-[250px] bg-gray-200 rounded-t-xl"></div>
+
+          <div class="p-2 sm:p-3 space-y-2">
             <div class="h-4 bg-gray-400 rounded w-3/4"></div>
             <div class="h-4 bg-gray-400 rounded w-1/2"></div>
             <div class="h-4 bg-gray-400 rounded w-1/4"></div>
@@ -73,9 +91,33 @@ onMounted(() => {
     </div>
 
     <div class="relative w-full max-w-[1250px] mx-auto mt-6 px-3 sm:px-4">
+      <!-- Mobile View for Featured Cast -->
       <div
         v-if="featuredCast.length"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
+        class="flex gap-3 overflow-x-auto sm:hidden pb-2 scroll-smooth animate-fadeUp"
+      >
+        <div
+          v-for="(img, index) in featuredCast"
+          :key="index"
+          class="w-[170px] bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 flex-shrink-0"
+        >
+          <img
+            :src="`https://image.tmdb.org/t/p/w500${img.profile_path}`"
+            class="w-[170px] h-[180px] object-cover rounded-t-xl"
+          />
+          <div class="p-2">
+            <p class="text-gray-400 text-xs mb-0.5 truncate">{{ img.name }}</p>
+            <p class="text-white text-sm font-semibold leading-tight truncate">
+              🎭 {{ img.character }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tablet & Desktop View for Featured Cast -->
+      <div
+        v-if="featuredCast.length"
+        class="hidden sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 animate-fadeUp"
       >
         <div
           v-for="(img, index) in featuredCast"
@@ -87,9 +129,7 @@ onMounted(() => {
             class="w-full h-[180px] sm:h-[250px] object-cover rounded-t-xl"
           />
           <div class="p-2 sm:p-3">
-            <p class="text-gray-400 text-xs sm:text-sm mb-0.5 truncate">
-              {{ img.name }}
-            </p>
+            <p class="text-gray-400 text-xs sm:text-sm mb-0.5 truncate">{{ img.name }}</p>
             <p class="text-white text-sm sm:text-base font-semibold leading-tight truncate">
               🎭 {{ img.character }}
             </p>

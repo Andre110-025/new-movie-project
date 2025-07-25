@@ -59,11 +59,16 @@ onMounted(() => {
       </RouterLink>
     </div>
 
-    <div v-if="isLoading" class="p-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div v-for="n in 4" :key="n" class="bg-gray-300 rounded-xl animate-pulse shadow-lg">
-          <div class="h-[400px] w-full rounded-t-xl"></div>
-          <div class="p-4 space-y-2">
+    <div v-if="isLoading" class="relative w-full max-w-[1250px] mx-auto mt-6 px-3 sm:px-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+        <div
+          v-for="n in 5"
+          :key="n"
+          class="bg-gray-300 rounded-xl animate-pulse shadow-lg overflow-hidden"
+        >
+          <div class="w-full h-[180px] sm:h-[250px] bg-gray-200 rounded-t-xl"></div>
+
+          <div class="p-2 sm:p-3 space-y-2">
             <div class="h-4 bg-gray-400 rounded w-3/4"></div>
             <div class="h-4 bg-gray-400 rounded w-1/2"></div>
             <div class="h-4 bg-gray-400 rounded w-1/4"></div>
@@ -73,9 +78,35 @@ onMounted(() => {
     </div>
 
     <div class="relative w-full max-w-[1250px] mx-auto mt-6 px-3 sm:px-4">
+      <!-- Mobile View for popular movies -->
       <div
         v-if="trendingMovie.length"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4"
+        class="flex gap-3 overflow-x-auto sm:hidden pb-2 scroll-smooth animate-fadeUp"
+      >
+        <div
+          v-for="(img, index) in trendingMovie"
+          :key="index"
+          class="w-[170px] bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 flex-shrink-0"
+        >
+          <img
+            :src="`https://image.tmdb.org/t/p/w780${img.backdrop_path}`"
+            class="w-[170px] h-[180px] object-cover rounded-t-xl"
+          />
+          <div class="p-2">
+            <p class="text-gray-400 text-xs mb-0.5 truncate">🎬 {{ img.release_date }}</p>
+            <h5 class="text-white text-sm font-semibold leading-tight truncate">{{ img.title }}</h5>
+            <div class="flex items-center justify-between mt-1.5">
+              <img src="/imdb.png" class="w-8 h-3" />
+              <p class="text-gray-400 text-xs font-medium">🍅 {{ img.vote_average }} / 10</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- desktop and tablet view for trending Movie -->
+      <div
+        v-if="trendingMovie.length"
+        class="hidden sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 animate-fadeUp"
       >
         <div
           v-for="(img, index) in trendingMovie"

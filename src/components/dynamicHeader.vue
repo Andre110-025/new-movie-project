@@ -40,8 +40,6 @@ const getDynamicHeader = async () => {
     loading.value = true
     const response = await apiFunction.get(`/movie/popular`)
 
-    await new Promise((resolve) => setTimeout(resolve, 4000))
-
     if (response.status !== 200) {
       throw new Error('Failed to fetch movies')
     }
@@ -101,7 +99,7 @@ onBeforeUnmount(() => {
         style="align-self: flex-start"
       />
 
-      <div class="relative w-full max-w-md -mt-[20px]">
+      <div class="relative w-full max-w-md -mt-[20px] z-30">
         <IconSearch
           class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white pointer-events-none"
         />
@@ -114,7 +112,7 @@ onBeforeUnmount(() => {
 
         <ul
           v-if="suggestions.length && search"
-          class="absolute z-20 w-full bg-[#111] rounded-lg mt-2 shadow-lg text-white"
+          class="absolute z-30 w-full bg-[#111] rounded-lg mt-2 shadow-lg text-white max-h-60 overflow-auto"
         >
           <li
             v-for="(movie, index) in suggestions"
