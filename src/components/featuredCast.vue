@@ -99,11 +99,11 @@ onMounted(() => {
         <div
           v-for="(img, index) in featuredCast"
           :key="index"
-          class="w-[170px] bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 flex-shrink-0"
+          class="w-[110px] bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 flex-shrink-0"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w500${img.profile_path}`"
-            class="w-[170px] h-[180px] object-cover rounded-t-xl"
+            class="w-[110px] h-[130px] object-cover rounded-t-xl"
           />
           <div class="p-2">
             <p class="text-gray-400 text-xs mb-0.5 truncate">{{ img.name }}</p>

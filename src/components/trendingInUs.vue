@@ -76,18 +76,18 @@ onMounted(() => {
         <div
           v-for="(img, index) in trendingInUs"
           :key="index"
-          class="w-[170px] bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 flex-shrink-0"
+          class="w-[110px] bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 flex-shrink-0"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w780${img.backdrop_path || img.poster_path}`"
-            class="w-[170px] h-[180px] object-cover rounded-t-xl"
+            class="w-[110px] h-[130px] object-cover rounded-t-xl"
           />
           <div class="p-2">
             <p class="text-gray-400 text-xs mb-0.5 truncate">🎬 {{ img.release_date }}</p>
             <h5 class="text-white text-sm font-semibold leading-tight truncate">{{ img.title }}</h5>
             <div class="flex items-center justify-between mt-1.5">
               <img src="/imdb.png" class="w-8 h-3" />
-              <p class="text-gray-400 text-xs font-medium">🍅 {{ img.vote_average }} / 10</p>
+              <p class="text-gray-400 text-[11px] font-medium">🍅 {{ img.vote_average }}</p>
             </div>
           </div>
         </div>

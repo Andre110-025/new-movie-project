@@ -38,7 +38,7 @@ onMounted(() => {
 <template>
   <div>
     <div class="mt-16 mx-auto max-w-[1250px] flex justify-between items-center px-4">
-      <h2 v-if="trendingInNg.length" class="text-2xl font-semibold">In Nigeria</h2>
+      <h2 v-if="trendingInNg.length" class="text-2xl font-semibold">Nollywood</h2>
       <RouterLink
         to="/moreTrendingInNigeria"
         class="flex flex-row items-center gap-1"
@@ -76,18 +76,18 @@ onMounted(() => {
         <div
           v-for="(img, index) in trendingInNg"
           :key="index"
-          class="w-[170px] bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 flex-shrink-0"
+          class="w-[110px] bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 flex-shrink-0"
         >
           <img
             :src="`https://image.tmdb.org/t/p/w780${img.backdrop_path || img.poster_path}`"
-            class="w-[170px] h-[180px] object-cover rounded-t-xl"
+            class="w-[110px] h-[130px] object-cover rounded-t-xl"
           />
           <div class="p-2">
             <p class="text-gray-400 text-xs mb-0.5 truncate">🎬 {{ img.release_date }}</p>
             <h5 class="text-white text-sm font-semibold leading-tight truncate">{{ img.title }}</h5>
             <div class="flex items-center justify-between mt-1.5">
               <img src="/imdb.png" class="w-8 h-3" />
-              <p class="text-gray-400 text-xs font-medium">🍅 {{ img.vote_average }} / 10</p>
+              <p class="text-gray-400 text-[11px] font-medium">🍅 {{ img.vote_average }}</p>
             </div>
           </div>
         </div>
@@ -104,7 +104,7 @@ onMounted(() => {
           class="bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
         >
           <img
-            :src="`https://image.tmdb.org/t/p/w780${img.backdrop_path}`"
+            :src="`https://image.tmdb.org/t/p/w780${img.backdrop_path || img.poster_path}`"
             class="w-full h-[180px] sm:h-[250px] object-cover rounded-t-xl"
           />
           <div class="p-2 sm:p-3">
