@@ -102,28 +102,31 @@ onBeforeUnmount(() => {
       v-if="moreComingMovie.length"
       class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 animate-fadeUp"
     >
-      <div
-        v-for="(img, index) in moreComingMovie"
-        :key="index"
+      <RouterLink
+        v-for="movie in moreComingMovie"
+        :key="movie.id"
+        :to="`/movie/${movie.id}`"
         class="bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
       >
         <img
-          :src="`https://image.tmdb.org/t/p/w500${img.backdrop_path || img.poster_path}`"
+          :src="`https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}`"
           class="w-full h-[180px] sm:h-[250px] object-cover rounded-t-xl"
         />
         <div class="p-2 sm:p-3">
-          <p class="text-gray-400 text-xs sm:text-sm mb-0.5 truncate">🎬 {{ img.release_date }}</p>
+          <p class="text-gray-400 text-xs sm:text-sm mb-0.5 truncate">
+            🎬 {{ movie.release_date }}
+          </p>
           <h5 class="text-white text-sm sm:text-base font-semibold leading-tight truncate">
-            {{ img.title }}
+            {{ movie.title }}
           </h5>
           <div class="flex items-center justify-between mt-1.5">
             <img src="/imdb.png" class="w-8 sm:w-10 h-3 sm:h-4" />
             <p class="text-gray-400 text-xs sm:text-sm font-medium">
-              🍅 {{ img.vote_average }} / 10
+              🍅 {{ movie.vote_average }} / 10
             </p>
           </div>
         </div>
-      </div>
+      </RouterLink>
     </div>
   </div>
   <div v-if="isFetchingMovie" class="flex justify-center py-6">

@@ -21,7 +21,7 @@ const getSuggestion = async () => {
 
   try {
     const response = await apiFunction.get(`/search/movie?query=${search.value}`)
-    suggestion.value = response.data.results.slice(0, 3)
+    suggestion.value = response.data.results.slice(0, 4)
   } catch (err) {
     console.error(err)
   }
@@ -87,7 +87,7 @@ onMounted(() => {
         />
         <ul
           v-if="suggestion.length && search"
-          class="absolute left-0 right-0 top-full bg-[#111] text-white rounded-lg mt-1 shadow-lg max-h-60 overflow-y-auto z-10"
+          class="absolute left-0 right-0 top-full bg-[#111] text-white rounded-lg mt-1 shadow-lg max-h-60 overflow-y-auto z-50"
         >
           <li
             v-for="(movie, index) in suggestion"
@@ -98,7 +98,6 @@ onMounted(() => {
             {{ movie.title }}
           </li>
         </ul>
-
         <button
           @click="getSearchedMovie()"
           class="absolute right-1 top-1/2 -translate-y-1/2 px-3 sm:px-4 py-2 rounded-lg bg-white text-[#911b1b] font-semibold text-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-400 transition duration-300 shadow-lg"

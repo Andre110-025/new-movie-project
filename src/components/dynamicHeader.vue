@@ -112,7 +112,7 @@ onBeforeUnmount(() => {
 
         <ul
           v-if="suggestions.length && search"
-          class="absolute z-30 w-full bg-[#111] rounded-lg mt-2 shadow-lg text-white max-h-60 overflow-auto"
+          class="absolute left-0 right-0 top-full bg-[#111] text-white rounded-lg mt-1 shadow-lg max-h-60 overflow-y-auto z-50"
         >
           <li
             v-for="(movie, index) in suggestions"
@@ -144,7 +144,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div
-      class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 px-2 sm:px-4 mt-[50px]"
+      class="relative z-50 flex flex-col lg:flex-row items-center justify-between gap-6 px-2 sm:px-4 mt-[50px]"
     >
       <div class="flex flex-col items-start max-w-full lg:max-w-[50%]">
         <h3 class="text-4xl sm:text-5xl text-white font-semibold leading-tight">
@@ -172,14 +172,21 @@ onBeforeUnmount(() => {
           {{ dynamicScreen[currentSlide]?.overview }}
         </p>
 
-        <button
-          class="mt-3 flex items-center justify-center w-full sm:w-[180px] gap-2 mainColor hover:bg-[#b01e1e] text-white font-semibold py-2 px-4 rounded-lg cursor-pointer transition"
+        <a
+          href="https://www.youtube.com/watch?v=6ZfuNTqbHE8"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block w-full sm:w-[180px]"
         >
-          <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-          <span class="text-sm">WATCH TRAILER</span>
-        </button>
+          <button
+            class="mt-3 flex items-center justify-center w-full gap-2 mainColor hover:bg-[#b01e1e] text-white font-semibold py-2 px-4 rounded-lg cursor-pointer transition"
+          >
+            <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <span class="text-sm">WATCH TRAILER</span>
+          </button>
+        </a>
       </div>
 
       <div class="hidden lg:flex flex-col gap-2 pl-10">

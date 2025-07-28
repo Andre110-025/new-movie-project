@@ -48,22 +48,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="loading"
-    class="flex justify-center items-center h-64 animate-fadeIn duration-700 ease-in-out"
-  >
+  <div v-if="loading" class="flex justify-center items-center h-64 animate-fadeIn ease-in-out">
     <div
-      class="animate-spin rounded-full h-16 w-16 border-4 border-[#911b1b] border-t-transparent"
+      class="animate-spin rounded-full h-14 w-14 border-4 border-[#911b1b] border-t-transparent"
     ></div>
   </div>
 
   <div
     v-if="movieDetails?.backdrop_path"
-    class="relative min-h-screen bg-cover bg-center px-4 sm:px-6 lg:px-10 py-6 flex items-center"
+    class="relative min-h-screen bg-cover bg-center px-4 sm:px-6 lg:px-10 py-6 flex items-center animate-fadeUp"
     :style="`background-image: url(https://image.tmdb.org/t/p/original${movieDetails.backdrop_path})`"
   >
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-    <div class="flex flex-col">
+    <div class="flex flex-col animate-fadeIn">
       <div class="relative z-10 max-w-3xl text-white space-y-4">
         <h1 class="text-3xl sm:text-4xl font-bold">
           {{ movieDetails.title }}
