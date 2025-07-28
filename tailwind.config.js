@@ -10,6 +10,10 @@ export default {
         sans: ['Poppins', 'sans-serif'],
       },
       keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
         fadeInUp: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -28,6 +32,7 @@ export default {
         },
       },
       animation: {
+        fadeIn: 'fadeIn 0.7s ease-in-out',
         fadeInUp: 'fadeInUp 0.8s ease-out',
         fadeUp: 'fadeUp 0.6s ease-out',
         pulseSlow: 'pulseSlow 2s ease-in-out infinite',

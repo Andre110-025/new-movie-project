@@ -10,6 +10,7 @@ const router = createRouter({
     },
     {
       path: '/movie/:id',
+      name: 'movieDetails',
       component: () => import('@/views/movieDetails.vue'),
     },
     {

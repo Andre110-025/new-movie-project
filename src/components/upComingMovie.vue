@@ -21,7 +21,7 @@ const getComingMovies = async (count = 5) => {
     loading.value = true
     comingSoon.value = []
 
-    await new Promise((resolve) => setTimeout(resolve, 6000))
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
     const response = await apiFunction.get(`/movie/upcoming`)
     console.log('Coming Movies:', response)
@@ -46,7 +46,9 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="mt-16 mx-auto max-w-[1250px] flex justify-between items-center px-4">
+    <div
+      class="mt-16 mx-auto max-w-[1250px] flex justify-between items-center px-4 animate-fadeIn duration-700 ease-in-out"
+    >
       <h2 v-if="comingSoon.length" class="text-2xl font-semibold">Coming Soon</h2>
       <RouterLink
         to="/moreComingSoon"
@@ -107,30 +109,31 @@ onMounted(() => {
         v-if="comingSoon.length"
         class="hidden sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 animate-fadeUp"
       >
-        <div
-          v-for="(img, index) in comingSoon"
-          :key="index"
+        <RouterLink
+          v-for="movie in comingSoon"
+          :key="movie.id"
+          :to="`/movie/${movie.id}`"
           class="bg-[#111] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
         >
           <img
-            :src="`https://image.tmdb.org/t/p/w780${img.backdrop_path}`"
+            :src="`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`"
             class="w-full h-[180px] sm:h-[250px] object-cover rounded-t-xl"
           />
           <div class="p-2 sm:p-3">
             <p class="text-gray-400 text-xs sm:text-sm mb-0.5 truncate">
-              🎬 {{ img.release_date }}
+              🎬 {{ movie.release_date }}
             </p>
             <h5 class="text-white text-sm sm:text-base font-semibold leading-tight truncate">
-              {{ img.title }}
+              {{ movie.title }}
             </h5>
             <div class="flex items-center justify-between mt-1.5">
               <img src="/imdb.png" class="w-8 sm:w-10 h-3 sm:h-4" />
               <p class="text-gray-400 text-xs sm:text-sm font-medium">
-                🍅 {{ img.vote_average }} / 10
+                🍅 {{ movie.vote_average }} / 10
               </p>
             </div>
           </div>
-        </div>
+        </RouterLink>
       </div>
     </div>
   </div>
