@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
 
 <template>
   <footer class="bg-[#1a1a1a] text-gray-400 mt-16 pt-8 pb-6">
@@ -24,9 +26,26 @@
     <div
       class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 text-center mb-6"
     >
-      <p class="cursor-pointer hover:text-[#911b1b] text-white">Terms of Use</p>
-      <p class="cursor-pointer hover:text-[#911b1b] text-white">Privacy Policy</p>
-      <p class="cursor-pointer hover:text-[#911b1b] text-white">Press Room</p>
+      <RouterLink
+        class="cursor-pointer text-white hover:text-[#911b1b] transition-colors duration-300"
+        to="/termsOfUse"
+      >
+        Terms of Use
+      </RouterLink>
+
+      <RouterLink
+        class="cursor-pointer text-white hover:text-[#911b1b] transition-colors duration-300"
+        to="/privacyPolicy"
+      >
+        Privacy Policy
+      </RouterLink>
+
+      <RouterLink
+        class="cursor-pointer text-white hover:text-[#911b1b] transition-colors duration-300"
+        to="/pressRoom"
+      >
+        Press Room
+      </RouterLink>
     </div>
 
     <div class="border-t border-gray-700 w-[90%] mx-auto mb-4"></div>

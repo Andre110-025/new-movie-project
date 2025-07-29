@@ -5,18 +5,22 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'HomeView',
-      component: () => import('@/views/HomeView.vue'),
+      redirect: '/movieHome',
     },
     {
-      path: '/movie/:id',
-      name: 'movieDetails',
-      component: () => import('@/views/movieDetails.vue'),
+      path: '/homeView',
+      name: 'HomeView',
+      component: () => import('@/views/HomeView.vue'),
     },
     {
       path: '/movieHome',
       name: 'movieHome',
       component: () => import('@/views/movieHome.vue'),
+    },
+    {
+      path: '/movie/:id',
+      name: 'movieDetails',
+      component: () => import('@/views/movieDetails.vue'),
     },
     {
       path: '/ImageResult',
@@ -62,6 +66,21 @@ const router = createRouter({
       path: '/moreFeaturedCast',
       name: 'moreFeaturedCast',
       component: () => import('@/views/moreFeaturedCast.vue'),
+    },
+    {
+      path: '/termsOfUse',
+      name: 'termsOfUse',
+      component: () => import('@/views/termsOfUse.vue'),
+    },
+    {
+      path: '/privacyPolicy',
+      name: 'privacyPolicy',
+      component: () => import('@/views/privacyPolicy.vue'),
+    },
+    {
+      path: '/pressRoom',
+      name: 'pressRoom',
+      component: () => import('@/views/pressRoom.vue'),
     },
     // {
     //   path: '/about',

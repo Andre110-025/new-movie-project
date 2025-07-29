@@ -69,6 +69,16 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   clearInterval(sliderId)
 })
+
+const isAuthenticated = ref(false)
+
+function handleSignIn() {
+  isAuthenticated.value = true
+}
+
+function handleSignOut() {
+  isAuthenticated.value = false
+}
 </script>
 
 <template>
@@ -133,6 +143,7 @@ onBeforeUnmount(() => {
       </div>
 
       <RouterLink
+        v-if="!isAuthenticated"
         to="/homeView"
         class="w-12 h-12 sm:w-15 sm:h-15 mainColor rounded-full flex items-center justify-center border-4 border-[#911b1b] absolute top-[15px] right-[3px] sm:static"
       >
@@ -141,6 +152,14 @@ onBeforeUnmount(() => {
           class="w-6 h-6 sm:w-8 sm:h-8"
         />
       </RouterLink>
+
+      <button
+        v-else
+        @click="handleSignOut"
+        class="text-white hover:text-[#911b1b] transition-colors duration-300"
+      >
+        Sign Out
+      </button>
     </div>
 
     <div
